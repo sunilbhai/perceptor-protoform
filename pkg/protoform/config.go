@@ -26,6 +26,7 @@ import (
 	"fmt"
 
 	"github.com/blackducksoftware/perceptor-protoform/pkg/api"
+	"github.com/koki/short/util/floatstr"
 
 	"k8s.io/apimachinery/pkg/api/resource"
 )
@@ -110,7 +111,7 @@ type perceptorRC struct {
 	Image           string
 	Port            int32
 	Cmd             []string
-	Arg             []string
+	Arg             []floatstr.FloatOrString
 	Replicas        int32
 	Env             []envSecret
 

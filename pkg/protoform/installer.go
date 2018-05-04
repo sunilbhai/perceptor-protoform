@@ -39,6 +39,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	v1meta "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	"github.com/koki/short/util/floatstr"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
@@ -337,6 +338,7 @@ func (i *Installer) addRcSvc(descriptions []*perceptorRC) {
 			Image:   desc.Image,
 			Pull:    types.PullAlways,
 			Command: desc.Cmd,
+			Args:    desc.Arg,
 			Env:     envVar,
 			Expose: []types.Port{
 				{
@@ -409,7 +411,7 @@ func (i *Installer) addPerceptorResources() {
 			Image:  paths["perceptor"],
 			Port:   int32(i.config.PerceptorPort),
 			Cmd:    []string{"./perceptor"},
-			Arg:    []string{"/etc/perceptor/perceptor.yaml"},
+			Arg:    []floatstr.FloatOrString{floatstr.FloatOrString{StringVal: "/etc/perceptor/perceptor.yaml"}},
 			CPU:    defaultCPU,
 			Memory: defaultMem,
 		},
@@ -426,7 +428,7 @@ func (i *Installer) addPerceptorResources() {
 			Image:              paths["pod-perceiver"],
 			Port:               int32(i.config.PerceiverPort),
 			Cmd:                []string{},
-			Arg:                []string{"/etc/perceiver/perceiver.yaml"},
+			Arg:                []floatstr.FloatOrString{floatstr.FloatOrString{StringVal: "/etc/perceiver/perceiver.yaml"}},
 			ServiceAccountName: i.config.ServiceAccounts["pod-perceiver"],
 			ServiceAccount:     i.config.ServiceAccounts["pod-perceiver"],
 			CPU:                defaultCPU,
@@ -453,7 +455,7 @@ func (i *Installer) addPerceptorResources() {
 			DockerSocket:       false,
 			Port:               int32(i.config.ScannerPort),
 			Cmd:                []string{},
-			Arg:                []string{"/etc/perceptor_scanner/perceptor_scanner.yaml"},
+			Arg:                []floatstr.FloatOrString{floatstr.FloatOrString{StringVal: "/etc/perceptor_scanner/perceptor_scanner.yaml"}},
 			ServiceAccount:     i.config.ServiceAccounts["perceptor-image-facade"],
 			ServiceAccountName: i.config.ServiceAccounts["perceptor-image-facade"],
 			CPU:                defaultCPU,
@@ -469,7 +471,7 @@ func (i *Installer) addPerceptorResources() {
 			DockerSocket:       true,
 			Port:               int32(i.config.ImageFacadePort),
 			Cmd:                []string{},
-			Arg:                []string{"/etc/perceptor_imagefacade/perceptor_imagefacade.yaml"},
+			Arg:                []floatstr.FloatOrString{floatstr.FloatOrString{StringVal: "/etc/perceptor_imagefacade/perceptor_imagefacade.yaml"}},
 			ServiceAccount:     i.config.ServiceAccounts["perceptor-image-facade"],
 			ServiceAccountName: i.config.ServiceAccounts["perceptor-image-facade"],
 			CPU:                defaultCPU,
@@ -491,7 +493,7 @@ func (i *Installer) addPerceptorResources() {
 				Image:              paths["image-perceiver"],
 				Port:               int32(i.config.PerceiverPort),
 				Cmd:                []string{},
-				Arg:                []string{"/etc/perceiver/perceiver.yaml"},
+				Arg:                []floatstr.FloatOrString{floatstr.FloatOrString{StringVal: "/etc/perceiver/perceiver.yaml"}},
 				ServiceAccount:     i.config.ServiceAccounts["image-perceiver"],
 				ServiceAccountName: i.config.ServiceAccounts["image-perceiver"],
 			},
@@ -517,7 +519,7 @@ func (i *Installer) addPerceptorResources() {
 				Image:              "gcr.io/blackducksoftware/skyfire-daemon:master",
 				Port:               3005,
 				Cmd:                []string{},
-				Arg:                []string{"/etc/skyfire/skyfire.yaml"},
+				Arg:                []floatstr.FloatOrString{floatstr.FloatOrString{StringVal: "/etc/skyfire/skyfire.yaml"}},
 				ServiceAccount:     i.config.ServiceAccounts["image-perceiver"],
 				ServiceAccountName: i.config.ServiceAccounts["image-perceiver"],
 			},
