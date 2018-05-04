@@ -22,13 +22,18 @@ under the License.
 package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/blackducksoftware/perceptor-protoform/pkg/api"
 	"github.com/blackducksoftware/perceptor-protoform/pkg/protoform"
 )
 
 func main() {
 	defaults := createDefaults()
-	installer := protoform.NewInstaller(defaults, "/etc/protoform")
+	configPath := os.Args[1]
+	fmt.Printf("Config path: %s", configPath)
+	installer := protoform.NewInstaller(defaults, configPath)
 	installer.Run()
 }
 

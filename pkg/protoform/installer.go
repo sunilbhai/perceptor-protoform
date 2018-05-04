@@ -93,7 +93,7 @@ func (i *Installer) setDefaults(defaults *api.ProtoformDefaults) {
 // they can update the individual perceptor containers configmaps.
 func (i *Installer) readConfig(configPath string) {
 	log.Print("*************** [protoform] initializing  ****************")
-	viper.SetConfigName("protoform")
+	viper.SetConfigFile(configPath)
 
 	// these need to be set before we read in the config!
 	viper.SetEnvPrefix("PCP")
@@ -103,7 +103,7 @@ func (i *Installer) readConfig(configPath string) {
 		panic("No hub database password secret supplied.  Please inject PCP_HUBUSERPASSWORD as a secret and restart")
 	}
 
-	viper.AddConfigPath(configPath)
+	// viper.AddConfigPath(configPath)
 
 	i.config.HubUserPasswordEnvVar = "PCP_HUBUSERPASSWORD"
 	i.config.ViperSecret = "viper-secret"
