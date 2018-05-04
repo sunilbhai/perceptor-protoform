@@ -34,6 +34,7 @@ spec:
           key: HubUserPassword
     imagePullPolicy: Always
     command: [ ./protoform ]
+    args: [ "/etc/protoform/protoform.yaml" ]
     ports:
     - containerPort: 3001
       protocol: TCP

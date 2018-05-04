@@ -35,6 +35,7 @@ type ReplicationControllerConfig struct {
 	Vols           map[string]types.Volume
 	Containers     []types.Container
 	ServiceAccount string
+	args           []string
 }
 
 // ServiceConfig defines the configuration for a service
